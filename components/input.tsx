@@ -13,11 +13,11 @@ const Input: React.FC<InputProps> = ({ id, onChange, value, label, type }) => {
     <div className="relative">
       <input
         onChange={onChange}
-        type={type}
         value={value}
+        type={type}
         id={id}
         className="
-          black
+          block
           rounded-md
           px-6
           pt-6
@@ -30,6 +30,7 @@ const Input: React.FC<InputProps> = ({ id, onChange, value, label, type }) => {
           focus:outline-none
           focus:ring-0
           peer
+          invalid:border-b-1
           "
         placeholder=" "
       />
@@ -43,7 +44,7 @@ const Input: React.FC<InputProps> = ({ id, onChange, value, label, type }) => {
           -translate-y-3
           scale-75
           top-4
-          z-15
+          z-10
           origin-[0]
           left-6
           peer-placeholder-shown:scale-100
