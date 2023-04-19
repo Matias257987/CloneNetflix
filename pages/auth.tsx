@@ -1,18 +1,35 @@
-import { useCallback, useState } from "react";
 import axios from "axios";
-import Input from "@/components/input";
-import { signIn } from "next-auth/react";
-
+import { useCallback, useState } from "react";
+import { NextPageContext } from "next";
+import { getSession, signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import Input from "@/components/input";
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
 
 const Auth = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-
   const [variant, setVariant] = useState("login");
-
   const toggleVariant = useCallback(() => {
     setVariant((currentVariant) =>
       currentVariant === "login" ? "register" : "login"
@@ -24,12 +41,15 @@ const Auth = () => {
       await signIn("credentials", {
         email,
         password,
-        callbackUrl: "/profiles",
+        redirect: false,
+        callbackUrl: "/",
       });
+
+      router.push("/profiles");
     } catch (error) {
-      console.log("Error");
+      console.log(error);
     }
-  }, [email, password]);
+  }, [email, password, router]);
 
   const register = useCallback(async () => {
     try {
@@ -38,9 +58,10 @@ const Auth = () => {
         name,
         password,
       });
+
       login();
     } catch (error) {
-      console.log("Error");
+      console.log(error);
     }
   }, [email, name, password, login]);
 
@@ -59,18 +80,19 @@ const Auth = () => {
             <div className="flex flex-col gap-4">
               {variant === "register" && (
                 <Input
-                  label="Username"
-                  onChange={(e: any) => setName(e.target.value)}
                   id="name"
+                  type="text"
+                  label="Username"
                   value={name}
+                  onChange={(e: any) => setName(e.target.value)}
                 />
               )}
               <Input
-                label="Email"
-                onChange={(e: any) => setEmail(e.target.value)}
                 id="email"
                 type="email"
+                label="Email addres"
                 value={email}
+                onChange={(e: any) => setEmail(e.target.value)}
               />
               <Input
                 label="Password"
