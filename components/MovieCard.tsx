@@ -27,7 +27,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
         sm:group-hover:opacity-0
         delay-300
         w-full
-        h-[12vw]
+        h-[28vw] sm:h-[12vw]
     "
         src={data.thumbnailUrl}
         alt="Thumbnail"
@@ -40,14 +40,13 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
         transition
         duration-200
         z-10
-        invisible
-        sm:visible
+        visible
         delay-300
         w-full
         scale-0
         group-hover:scale-110
-        group-hover:-translate-y-[6vw]
-        group-hover:translate-x-[2vw]
+        group-hover:-translate-y-[2vw]
+        sm:group-hover:translate-x-[2vw]
         group-hover:opacity-100
     "
       >
@@ -60,7 +59,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
                 shadow-xl
                 rounded-t-md
                 w-full
-                h-[12vw]
+                h-[30vw] sm:h-[12vw]
             "
           src={data.thumbnailUrl}
           alt="Thumbnail"
