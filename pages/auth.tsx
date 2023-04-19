@@ -74,7 +74,7 @@ const Auth = () => {
         <div className="flex justify-center">
           <div className="bg-black bg-opacity-70 px-6 py-8 self-center mt-2 w-2/3 max-w-md rounded-md w-full">
             <h2 className="text-white text-4xl md-8 font-semibold">
-              {variant === "login" ? "Sing in" : "Register"}
+              {variant === "login" ? "Sign in" : "Register"}
             </h2>
             <br />
             <div className="flex flex-col gap-4">
