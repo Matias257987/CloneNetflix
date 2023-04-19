@@ -1,35 +1,18 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
-import { NextPageContext } from "next";
-import { getSession, signIn } from "next-auth/react";
-import { useRouter } from "next/router";
+import Input from "@/components/input";
+import { signIn } from "next-auth/react";
+
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import Input from "@/components/input";
-
-export async function getServerSideProps(context: NextPageContext) {
-  const session = await getSession(context);
-
-  if (session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-}
 
 const Auth = () => {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+
   const [variant, setVariant] = useState("login");
+
   const toggleVariant = useCallback(() => {
     setVariant((currentVariant) =>
       currentVariant === "login" ? "register" : "login"
@@ -41,15 +24,12 @@ const Auth = () => {
       await signIn("credentials", {
         email,
         password,
-        redirect: false,
-        callbackUrl: "/",
+        callbackUrl: "/profiles",
       });
-
-      router.push("/profiles");
     } catch (error) {
-      console.log(error);
+      console.log("Error");
     }
-  }, [email, password, router]);
+  }, [email, password]);
 
   const register = useCallback(async () => {
     try {
@@ -58,10 +38,9 @@ const Auth = () => {
         name,
         password,
       });
-
       login();
     } catch (error) {
-      console.log(error);
+      console.log("Error");
     }
   }, [email, name, password, login]);
 
@@ -74,25 +53,24 @@ const Auth = () => {
         <div className="flex justify-center">
           <div className="bg-black bg-opacity-70 px-6 py-8 self-center mt-2 w-2/3 max-w-md rounded-md w-full">
             <h2 className="text-white text-4xl md-8 font-semibold">
-              {variant === "login" ? "Sign in" : "Register"}
+              {variant === "login" ? "Sing in" : "Register"}
             </h2>
             <br />
             <div className="flex flex-col gap-4">
               {variant === "register" && (
                 <Input
-                  id="name"
-                  type="text"
                   label="Username"
-                  value={name}
                   onChange={(e: any) => setName(e.target.value)}
+                  id="name"
+                  value={name}
                 />
               )}
               <Input
+                label="Email"
+                onChange={(e: any) => setEmail(e.target.value)}
                 id="email"
                 type="email"
-                label="Email addres"
                 value={email}
-                onChange={(e: any) => setEmail(e.target.value)}
               />
               <Input
                 label="Password"
