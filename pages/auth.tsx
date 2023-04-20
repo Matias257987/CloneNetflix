@@ -1,12 +1,33 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
 import Input from "@/components/input";
-import { signIn } from "next-auth/react";
-
+import { NextPageContext } from "next"; //add
+import { getSession /*add*/, signIn } from "next-auth/react";
+import { useRouter } from "next/router"; //add
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
+// add
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
+
 const Auth = () => {
+  const router = useRouter(); //add
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -24,12 +45,15 @@ const Auth = () => {
       await signIn("credentials", {
         email,
         password,
-        callbackUrl: "/profiles",
+        redirect: false,
+        callbackUrl: "/",
       });
+
+      router.push("/profiles");
     } catch (error) {
       console.log("Error");
     }
-  }, [email, password]);
+  }, [email, password, router]);
 
   const register = useCallback(async () => {
     try {
@@ -38,6 +62,7 @@ const Auth = () => {
         name,
         password,
       });
+
       login();
     } catch (error) {
       console.log("Error");
@@ -53,7 +78,7 @@ const Auth = () => {
         <div className="flex justify-center">
           <div className="bg-black bg-opacity-70 px-6 py-8 self-center mt-2 w-2/3 max-w-md rounded-md w-full">
             <h2 className="text-white text-4xl md-8 font-semibold">
-              {variant === "login" ? "Sing in" : "Register"}
+              {variant === "login" ? "Sign in" : "Register"}
             </h2>
             <br />
             <div className="flex flex-col gap-4">
@@ -132,6 +157,7 @@ const Auth = () => {
               >
                 {variant === "login" ? "Create an account" : "Login"}
               </span>
+              .
             </p>
           </div>
         </div>

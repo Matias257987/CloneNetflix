@@ -22,7 +22,7 @@ export async function getServerSideProps(context: NextPageContext) {
 
 const Profiles = () => {
   const router = useRouter();
-  const { data: user } = useCurrentUser();
+  const { data: currentUser } = useCurrentUser();
 
   return (
     <div className="flex items-center h-full justify-center">
@@ -59,7 +59,7 @@ const Profiles = () => {
                     group-hover:text-white
               "
               >
-                {user?.name}
+                {currentUser?.name}
               </div>
             </div>
           </div>
