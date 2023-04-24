@@ -70,10 +70,10 @@ const Auth = () => {
   }, [email, name, password, login]);
 
   return (
-    <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
+    <div className="relative h-full w-full bg-no-repeat bg-center bg-fixed bg-cover">
       <div className="bg-black w-full h-full bg-opacity-50">
         <nav className="px-12 py-5 flex sm:justify-start justify-center">
-          <img src="/images/logo.png" alt="Logo" className="h-10 sm:h-12" />
+          <img src="" alt="Logo" className="h-10 sm:h-12" />
         </nav>
         <div className="flex justify-center">
           <div className="bg-black bg-opacity-70 px-6 py-8 self-center mt-2 w-2/3 max-w-md rounded-md w-full">
